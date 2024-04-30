@@ -125,6 +125,25 @@ const users: FastifyPluginAsync = async (fastify): Promise<void> => {
       return user;
     }
   });
+
+  fastify.post<{
+    Headers: { "x-user-token": string };
+  }>("/pin/restore", async (request) => {
+    const token = request.headers["x-user-token"];
+    const response = await fetch(`${BASE_URL}/user/pin/restore`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-User-Token": token,
+        Authorization: `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify({
+        idempotencyKey: crypto.randomUUID(),
+      }),
+    });
+    const challenge = await response.json();
+    return challenge;
+  });
 };
 
 export default users;
