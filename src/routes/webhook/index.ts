@@ -6,16 +6,19 @@ const webhook: FastifyPluginAsync = async (fastify): Promise<void> => {
     return reply.status(200);
   });
 
-  fastify.post("/", (request) => {
-    console.log("circle-body", request.body);
-    return request.body;
+  fastify.post("/", (request, reply) => {
+    fastify.websocketServer.clients.forEach((client) => {
+      client.send(JSON.stringify(request.body));
+    });
+    return reply.status(200);
   });
 
   fastify.get("/", { websocket: true }, (socket, req) => {
-    socket.on("message", (_message) => {
+    socket.on("message", (message) => {
       // message.toString() === 'hi from client'
-      console.log(req.body);
-      socket.send("hi from server");
+      console.log("body", req.body);
+      console.log("message", message);
+      socket.send(message);
     });
   });
 };

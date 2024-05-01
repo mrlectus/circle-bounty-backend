@@ -28,6 +28,7 @@
     "@joggr/fastify-prisma": "^1.2.3",
     "@sinclair/typebox": "^0.32.22",
     "@types/node": "^20.4.4",
+    "@types/ws": "^8.5.10",
     "c8": "^9.0.0",
     "concurrently": "^8.2.2",
     "dotenv-cli": "^7.4.1",
@@ -39,9 +40,6 @@
     "prisma": "^5.12.1",
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.4.5",
-    "ws": "^8.17.0",
-    "@types/ws": "^8.5.10"
-  },
-  "devDependencies": {}
+    "typescript": "^5.4.5"
+  }
 }

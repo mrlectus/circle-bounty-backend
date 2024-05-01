@@ -2,8 +2,7 @@
   "extends": "fastify-tsconfig",
   "compilerOptions": {
     "outDir": "dist",
-    "sourceMap": true,
-    "useUnknownInCatchVariables": false
+    "sourceMap": true
   },
   "include": [
     "src/**/*.ts"
