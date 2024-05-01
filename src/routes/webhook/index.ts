@@ -7,6 +7,7 @@ const webhook: FastifyPluginAsync = async (fastify): Promise<void> => {
   });
 
   fastify.post("/", (request) => {
+    console.log(request.body);
     return request.body;
   });
 };
