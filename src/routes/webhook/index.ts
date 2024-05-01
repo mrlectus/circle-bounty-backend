@@ -1,8 +1,8 @@
 import { FastifyPluginAsync } from "fastify";
 
 const webhook: FastifyPluginAsync = async (fastify): Promise<void> => {
-  fastify.get("/", (request) => {
-    return request.body;
+  fastify.head("/", (_request, reply) => {
+    return reply.status(200);
   });
 
   fastify.post("/", (request) => {
