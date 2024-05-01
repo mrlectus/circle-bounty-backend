@@ -7,7 +7,7 @@ const webhook: FastifyPluginAsync = async (fastify): Promise<void> => {
   });
 
   fastify.post("/", { websocket: true }, (socket, req) => {
-    socket.on("message", (message) => {
+    socket.on("message", (_message) => {
       // message.toString() === 'hi from client'
       console.log(req.body);
       socket.send("hi from server");
