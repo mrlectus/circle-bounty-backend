@@ -15,12 +15,6 @@ const root: FastifyPluginAsyncTypebox = async (fastify): Promise<void> => {
   }>("/ping", { schema: { response: { 200: Ping } } }, async function () {
     return { message: "Pong" };
   });
-
-  fastify.get<{
-    Reply: PingType;
-  }>("/", { schema: { response: { 200: Ping } } }, async function () {
-    return { message: "Hello, Heroku" };
-  });
 };
 
 export default root;

@@ -1,6 +1,18 @@
+import { Static, Type } from "@sinclair/typebox";
 import crypto from "crypto";
-export const API_KEY = process.env.API_KEY;
-export const APP_ID = process.env.APP_ID;
-export const BASE_URL = process.env.BASE_URL;
-export const BASE_URL_V1 = process.env.BASE_URL_V1;
+import envSchema from "env-schema";
 export const idempotencyKey = crypto.randomUUID();
+
+const schema = Type.Object({
+  API_KEY: Type.String(),
+  APP_ID: Type.String(),
+  BASE_URL: Type.String(),
+  BASE_URL_V1: Type.String(),
+});
+
+type Schema = Static<typeof schema>;
+
+export const config = envSchema<Schema>({
+  schema: schema,
+  dotenv: true,
+});

@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from "fastify";
-import { API_KEY, BASE_URL } from "../../config";
 import { Balance, Wallets } from "./schema";
+import { config } from "../../config";
 
 const wallets: FastifyPluginAsync = async (fastify): Promise<void> => {
   // Route to handle GET requests for a specific wallet
@@ -12,10 +12,10 @@ const wallets: FastifyPluginAsync = async (fastify): Promise<void> => {
       const { walletId } = request.params;
 
       // Send a GET request to the external API to retrieve wallet status
-      const response = await fetch(`${BASE_URL}/wallets/${walletId}`, {
+      const response = await fetch(`${config.BASE_URL}/wallets/${walletId}`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${API_KEY}`,
+          Authorization: `Bearer ${config.API_KEY}`,
           "Content-Type": "application/json",
         },
       });
@@ -51,10 +51,10 @@ const wallets: FastifyPluginAsync = async (fastify): Promise<void> => {
       const token = request.headers["x-user-token"];
 
       // Send a GET request to the external API to retrieve wallets
-      const response = await fetch(`${BASE_URL}/wallets`, {
+      const response = await fetch(`${config.BASE_URL}/wallets`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${API_KEY}`,
+          Authorization: `Bearer ${config.API_KEY}`,
           "Content-Type": "application/json",
           "X-User-Token": `${token}`, // Include token in request headers
         },
@@ -93,14 +93,17 @@ const wallets: FastifyPluginAsync = async (fastify): Promise<void> => {
       const token = request.headers["x-user-token"];
 
       // Send a GET request to the external API to retrieve wallet balances
-      const response = await fetch(`${BASE_URL}/wallets/${walletid}/balances`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${API_KEY}`,
-          "Content-Type": "application/json",
-          "X-User-Token": `${token}`, // Include token in request headers
-        },
-      });
+      const response = await fetch(
+        `${config.BASE_URL}/wallets/${walletid}/balances`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${config.API_KEY}`,
+            "Content-Type": "application/json",
+            "X-User-Token": `${token}`, // Include token in request headers
+          },
+        }
+      );
 
       // Check if the request was successful
       if (response.ok) {
@@ -137,14 +140,17 @@ const wallets: FastifyPluginAsync = async (fastify): Promise<void> => {
       const token = request.headers["x-user-token"];
 
       // Send a GET request to the external API to retrieve wallet NFTs
-      const response = await fetch(`${BASE_URL}/wallets/${walletid}/nfts`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${API_KEY}`,
-          "Content-Type": "application/json",
-          "X-User-Token": `${token}`, // Include token in request headers
-        },
-      });
+      const response = await fetch(
+        `${config.BASE_URL}/wallets/${walletid}/nfts`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${config.API_KEY}`,
+            "Content-Type": "application/json",
+            "X-User-Token": `${token}`, // Include token in request headers
+          },
+        }
+      );
 
       // Check if the request was successful
       if (response.ok) {

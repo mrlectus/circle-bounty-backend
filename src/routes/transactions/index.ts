@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from "fastify";
 import { Transfer } from "../users/schema";
-import { API_KEY, BASE_URL } from "../../config";
 import crypto from "crypto";
+import { config } from "../../config";
 
 const transactions: FastifyPluginAsync = async (fastify): Promise<void> => {
   // Route to handle GET requests to retrieve transactions
@@ -11,9 +11,9 @@ const transactions: FastifyPluginAsync = async (fastify): Promise<void> => {
       const token = request.headers["x-user-token"];
 
       // Send a GET request to the external API to retrieve transactions
-      const response = await fetch(`${BASE_URL}/transactions`, {
+      const response = await fetch(`${config.BASE_URL}/transactions`, {
         headers: {
-          Authorization: `Bearer ${API_KEY}`,
+          Authorization: `Bearer ${config.API_KEY}`,
           "Content-Type": "application/json",
           "X-User-Token": `${token}`, // Include user token in request headers
         },
@@ -52,24 +52,27 @@ const transactions: FastifyPluginAsync = async (fastify): Promise<void> => {
       const token = request.headers["x-user-token"];
 
       // Send a POST request to the external API for transfer
-      const response = await fetch(`${BASE_URL}/user/transactions/transfer`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${API_KEY}`,
-          "Content-Type": "application/json",
-          "X-User-Token": `${token}`, // Include user token in request headers
-        },
-        body: JSON.stringify({
-          idempotencyKey: crypto.randomUUID(), // Generate idempotency key
-          userId,
-          destinationAddress,
-          refId: crypto.randomUUID(), // Generate reference ID
-          amounts: [amounts], // Wrap amounts in an array
-          feeLevel: "HIGH",
-          tokenId,
-          walletId,
-        }),
-      });
+      const response = await fetch(
+        `${config.BASE_URL}/user/transactions/transfer`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${config.API_KEY}`,
+            "Content-Type": "application/json",
+            "X-User-Token": `${token}`, // Include user token in request headers
+          },
+          body: JSON.stringify({
+            idempotencyKey: crypto.randomUUID(), // Generate idempotency key
+            userId,
+            destinationAddress,
+            refId: crypto.randomUUID(), // Generate reference ID
+            amounts: [amounts], // Wrap amounts in an array
+            feeLevel: "HIGH",
+            tokenId,
+            walletId,
+          }),
+        }
+      );
 
       // Check if the request was successful
       if (response.ok) {

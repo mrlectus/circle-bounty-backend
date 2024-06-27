@@ -1,16 +1,16 @@
 import { FastifyPluginAsync } from "fastify";
-import { API_KEY, BASE_URL } from "../../config";
 import { appIDSchema } from "./schema";
+import { config } from "../../config";
 
 const lookups: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
   // Route to handle GET requests to retrieve app ID
   fastify.get("/appid", appIDSchema, async (_request, reply) => {
     try {
       // Send a GET request to the external API to retrieve the app ID
-      const response = await fetch(`${BASE_URL}/config/entity`, {
+      const response = await fetch(`${config.BASE_URL}/config/entity`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${API_KEY}`,
+          Authorization: `Bearer ${config.API_KEY}`,
           "Content-Type": "application/json",
         },
       });

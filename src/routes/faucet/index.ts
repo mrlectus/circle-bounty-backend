@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from "fastify";
-import { API_KEY, BASE_URL_V1 } from "../../config";
+import { config } from "../../config";
 const faucets: FastifyPluginAsync = async (fastify): Promise<void> => {
   // Route to handle POST requests to create a new drip
   fastify.post<{
@@ -15,10 +15,10 @@ const faucets: FastifyPluginAsync = async (fastify): Promise<void> => {
       const { blockchain, address, native, usdc } = request.body;
 
       // Send a POST request to the external API to create a new drip
-      const response = await fetch(`${BASE_URL_V1}/faucet/drips`, {
+      const response = await fetch(`${config.BASE_URL_V1}/faucet/drips`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${API_KEY}`,
+          Authorization: `Bearer ${config.API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ blockchain, address, native, usdc }),

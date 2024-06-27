@@ -1,6 +1,7 @@
 import { join } from "path";
 import AutoLoad, { AutoloadPluginOptions } from "@fastify/autoload";
 import { FastifyPluginAsync, FastifyServerOptions } from "fastify";
+import { config } from "./config";
 
 export interface AppOptions
   extends FastifyServerOptions,

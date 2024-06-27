@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from "fastify";
 import crypto from "crypto";
-import { API_KEY, BASE_URL } from "../../config";
 import { User, initSchema, tokenSchema } from "./schema";
+import { config } from "../../config";
 
 const users: FastifyPluginAsync = async (fastify): Promise<void> => {
   // Route to handle POST requests to create a new user
@@ -16,10 +16,10 @@ const users: FastifyPluginAsync = async (fastify): Promise<void> => {
       const userFromUUID = crypto.randomUUID();
 
       // Send a POST request to the external API to create a new user
-      const response = await fetch(`${BASE_URL}/users`, {
+      const response = await fetch(`${config.BASE_URL}/users`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${API_KEY}`,
+          Authorization: `Bearer ${config.API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ userId: userFromUUID }), // Include userId in the request body
@@ -69,10 +69,10 @@ const users: FastifyPluginAsync = async (fastify): Promise<void> => {
         const { userId } = request.body;
 
         // Send a POST request to the external API to retrieve token for the user
-        const response = await fetch(`${BASE_URL}/users/token`, {
+        const response = await fetch(`${config.BASE_URL}/users/token`, {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${API_KEY}`,
+            Authorization: `Bearer ${config.API_KEY}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ userId }), // Include userId in the request body
@@ -106,10 +106,10 @@ const users: FastifyPluginAsync = async (fastify): Promise<void> => {
       const { token, blockchains, userId } = request.body;
 
       // Send a POST request to the external API for user initialization
-      const response = await fetch(`${BASE_URL}/user/initialize`, {
+      const response = await fetch(`${config.BASE_URL}/user/initialize`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${API_KEY}`,
+          Authorization: `Bearer ${config.API_KEY}`,
           "Content-Type": "application/json",
           "X-User-Token": `${token}`, // Include token in request headers
         },
@@ -147,10 +147,10 @@ const users: FastifyPluginAsync = async (fastify): Promise<void> => {
       const { token } = request.query;
 
       // Send a GET request to the external API to retrieve user status
-      const response = await fetch(`${BASE_URL}/user`, {
+      const response = await fetch(`${config.BASE_URL}/user`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${API_KEY}`,
+          Authorization: `Bearer ${config.API_KEY}`,
           "Content-Type": "application/json",
           "X-User-Token": `${token}`, // Include token in request headers
         },
@@ -228,12 +228,12 @@ const users: FastifyPluginAsync = async (fastify): Promise<void> => {
       const token = request.headers["x-user-token"];
 
       // Send a POST request to the external API to restore PIN
-      const response = await fetch(`${BASE_URL}/user/pin/restore`, {
+      const response = await fetch(`${config.BASE_URL}/user/pin/restore`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "X-User-Token": token, // Include token in request headers
-          Authorization: `Bearer ${API_KEY}`,
+          Authorization: `Bearer ${config.API_KEY}`,
         },
         body: JSON.stringify({
           idempotencyKey: crypto.randomUUID(), // Generate idempotency key
