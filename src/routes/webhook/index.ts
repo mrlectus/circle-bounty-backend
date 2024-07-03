@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from "fastify";
 
 const webhook: FastifyPluginAsync = async (fastify): Promise<void> => {
-  fastify.head("/", (request, reply) => {
+  fastify.head("/", (_request, reply) => {
     return reply.status(200);
   });
 
@@ -13,7 +13,7 @@ const webhook: FastifyPluginAsync = async (fastify): Promise<void> => {
     return reply.status(200);
   });
 
-  fastify.get("/", { websocket: true }, (socket, req) => {
+  fastify.get("/", { websocket: true }, (socket, _req) => {
     socket.on("message", (message) => {
       // message.toString() === 'hi from client'
       socket.send(JSON.parse(message.toString()));
